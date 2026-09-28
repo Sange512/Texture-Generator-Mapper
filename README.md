@@ -1,6 +1,6 @@
 # Texture Generator & Mapper
 
-基于 Three.js 与 ComfyUI 的 AI 多视角贴图生成、对齐和 UV 映射工具，界面名称为 **Bake Studio**。
+基于 Three.js 与 ComfyUI 的 AI 多视角贴图生成、对齐和 UV 映射工具，界面名称为 **Texture Generator & Mapper**。
 
 面向角色贴图制作验证：导入带 UV 的白模和角色参考图，从当前视角生成贴图，将结果投影烘焙到模型 UV，逐视角补全后导出 PNG 或带贴图的 GLB。
 

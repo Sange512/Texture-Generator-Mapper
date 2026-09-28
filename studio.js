@@ -1440,9 +1440,9 @@ async function followJob(id, context) {
       await wait(3000); continue;
     }
     setStatus('generationStatus', `${job.message}${job.elapsed_seconds !== undefined ? ` · ${job.elapsed_seconds} 秒` : ''}${job.seed !== undefined ? ` · 种子 ${job.seed}` : ''}`, job.status === 'failed');
-    if (job.status === 'failed') { localStorage.removeItem('bakeStudioJob'); throw new Error(job.message); }
+    if (job.status === 'failed') { localStorage.removeItem('Texture Generator & MapperJob'); throw new Error(job.message); }
     if (job.status === 'completed') {
-      localStorage.removeItem('bakeStudioJob');
+      localStorage.removeItem('Texture Generator & MapperJob');
       $('resultPanel').style.display = 'block';
       $('resultImage').src = job.result;
       $('resultDownload').href = job.result;
@@ -1475,7 +1475,7 @@ $('generateBtn').addEventListener('click', async () => {
     setStatus('generationStatus', '正在提交当前视角…');
     pendingContext = { camera: shot.camera, model: currentModel, autoMap };
     const job = await api('/api/jobs', payload);
-    localStorage.setItem('bakeStudioJob', job.id);
+    localStorage.setItem('Texture Generator & MapperJob', job.id);
     resumeBtn.style.display = 'block';
     await followJob(job.id, pendingContext);
     resumeBtn.style.display = 'none';
@@ -1543,9 +1543,9 @@ const resumeBtn = document.createElement('button');
 resumeBtn.textContent = '恢复上次生成任务'; resumeBtn.className = 'secondary';
 resumeBtn.style.marginTop = '8px';
 $('generationStatus').after(resumeBtn);
-resumeBtn.style.display = localStorage.getItem('bakeStudioJob') ? 'block' : 'none';
+resumeBtn.style.display = localStorage.getItem('Texture Generator & MapperJob') ? 'block' : 'none';
 resumeBtn.addEventListener('click', async () => {
-  const id = localStorage.getItem('bakeStudioJob');
+  const id = localStorage.getItem('Texture Generator & MapperJob');
   if (!id) return;
   lockGeneration(true);
   try { await followJob(id, pendingContext); resumeBtn.style.display = 'none'; }

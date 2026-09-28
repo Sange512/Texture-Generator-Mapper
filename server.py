@@ -1,4 +1,4 @@
-"""Local Bake Studio bridge. Only Pillow and requests are external dependencies."""
+"""Local Texture Generator & Mapper bridge. Only Pillow and requests are external dependencies."""
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import urlsplit, unquote
@@ -72,7 +72,7 @@ def build_prompt(info, capture_name, reference_name, width=None, height=None, se
     if prompt.strip(): graph['20']['inputs']['prompt'] += '\n' + prompt.strip()
     # RMBG 89 returns IMAGE; an output node is required for /history to expose the file.
     graph['900'] = {'class_type': 'SaveImage', 'inputs': {
-        'images': ['89', 0], 'filename_prefix': 'BakeStudio/final_89'}}
+        'images': ['89', 0], 'filename_prefix': 'Texture Generator & Mapper/final_89'}}
     for key, node in graph.items():
         kind = node['class_type']
         if kind not in info: raise ValueError(f'缺少节点：{kind}（{key} 号）')
@@ -255,5 +255,5 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', '8765'))
-    print(f'Bake Studio: http://127.0.0.1:{port} | ComfyUI: {COMFY}', flush=True)
+    print(f'Texture Generator & Mapper: http://127.0.0.1:{port} | ComfyUI: {COMFY}', flush=True)
     ThreadingHTTPServer(('127.0.0.1', port), Handler).serve_forever()

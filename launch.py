@@ -14,7 +14,7 @@ URL = f'http://127.0.0.1:{PORT}'
 def ready():
     try:
         with urllib.request.urlopen(URL, timeout=2) as response:
-            return b'Bake Studio' in response.read(2000)
+            return b'Texture Generator &amp; Mapper' in response.read(2000)
     except OSError:
         return False
 
@@ -39,4 +39,4 @@ if not ready():
         print('Server did not become ready. See server.local.log')
         sys.exit(1)
 webbrowser.open(URL)
-print(f'Bake Studio: {URL}')
+print(f'Texture Generator & Mapper: {URL}')

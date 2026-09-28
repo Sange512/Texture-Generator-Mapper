@@ -1,0 +1,337 @@
+{
+  "1": {
+    "inputs": {
+      "unet_name": "qwen_image_edit_2509_fp8_e4m3fn.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "UNet加载器"
+    }
+  },
+  "2": {
+    "inputs": {
+      "clip_name": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+      "type": "qwen_image",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "加载CLIP"
+    }
+  },
+  "3": {
+    "inputs": {
+      "vae_name": "qwen_image_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "加载VAE"
+    }
+  },
+  "10": {
+    "inputs": {
+      "image": "11.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load 白模图"
+    }
+  },
+  "11": {
+    "inputs": {
+      "image": "3c3f9b07eaa9e0c044d2c19cbbe32f89a63129e910dbc-m5zDV7.webp"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load 角色设计图"
+    }
+  },
+  "20": {
+    "inputs": {
+      "prompt": "参考图2（设计图）的配色、花纹和细节，为图1（白模/灰模）上色。必须严格保持图1的视角、镜头角度、构图、姿势、比例和模型结构完全不变，只改变表面的颜色、纹理和材质。输出与图1完全相同视角和构图的上色模型，只要基础颜色贴图，固有色，basecolor，黑色背景",
+      "clip": [
+        "2",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "image1": [
+        "86",
+        0
+      ],
+      "image2": [
+        "84",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEditPlus",
+    "_meta": {
+      "title": "文本编码（QwenImageEditPlus）"
+    }
+  },
+  "21": {
+    "inputs": {
+      "prompt": "",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImageEdit",
+    "_meta": {
+      "title": "负向(留空)"
+    }
+  },
+  "22": {
+    "inputs": {
+      "pixels": [
+        "87",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE编码"
+    }
+  },
+  "23": {
+    "inputs": {
+      "lora_name": "8步加速Qwen-Image-Lightning-8steps-V2.0-bf16_V2.0.safetensors",
+      "strength_model": 1,
+      "model": [
+        "1",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "LoRA加载器（仅模型）"
+    }
+  },
+  "24": {
+    "inputs": {
+      "shift": 3,
+      "model": [
+        "23",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingAuraFlow",
+    "_meta": {
+      "title": "采样算法（AuraFlow）"
+    }
+  },
+  "25": {
+    "inputs": {
+      "strength": 1,
+      "pre_cfg": false,
+      "model": [
+        "24",
+        0
+      ]
+    },
+    "class_type": "CFGNorm",
+    "_meta": {
+      "title": "CFG归一化"
+    }
+  },
+  "26": {
+    "inputs": {
+      "seed": 1035567863405575,
+      "steps": 8,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "25",
+        0
+      ],
+      "positive": [
+        "20",
+        0
+      ],
+      "negative": [
+        "21",
+        0
+      ],
+      "latent_image": [
+        "22",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "K采样器"
+    }
+  },
+  "27": {
+    "inputs": {
+      "samples": [
+        "26",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE解码"
+    }
+  },
+  "84": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "megapixels": 1,
+      "resolution_steps": 1,
+      "image": [
+        "111",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "缩放图像（像素）"
+    }
+  },
+  "86": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "megapixels": 1,
+      "resolution_steps": 1,
+      "image": [
+        "87",
+        0
+      ]
+    },
+    "class_type": "ImageScaleToTotalPixels",
+    "_meta": {
+      "title": "缩放图像（像素）"
+    }
+  },
+  "87": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "interpolation": "nearest",
+      "method": "pad",
+      "condition": "always",
+      "multiple_of": 0,
+      "image": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "🔧 Image Resize"
+    }
+  },
+  "89": {
+    "inputs": {
+      "model": "RMBG-2.0",
+      "sensitivity": 1,
+      "process_res": 1024,
+      "mask_blur": 0,
+      "mask_offset": 0,
+      "invert_output": false,
+      "refine_foreground": false,
+      "background": "Alpha",
+      "background_color": "#222222",
+      "image": [
+        "27",
+        0
+      ]
+    },
+    "class_type": "RMBG",
+    "_meta": {
+      "title": "去除背景 (RMBG)"
+    }
+  },
+  "90": {
+    "inputs": {
+      "images": [
+        "89",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "预览图像"
+    }
+  },
+  "111": {
+    "inputs": {
+      "x": 0,
+      "y": 0,
+      "resize_source": false,
+      "destination": [
+        "112",
+        0
+      ],
+      "source": [
+        "11",
+        0
+      ],
+      "mask": [
+        "115",
+        0
+      ]
+    },
+    "class_type": "ImageCompositeMasked",
+    "_meta": {
+      "title": "合成图像（遮罩）"
+    }
+  },
+  "112": {
+    "inputs": {
+      "width": [
+        "113",
+        0
+      ],
+      "height": [
+        "113",
+        1
+      ],
+      "batch_size": 1,
+      "color": 0
+    },
+    "class_type": "EmptyImage",
+    "_meta": {
+      "title": "空图像"
+    }
+  },
+  "113": {
+    "inputs": {
+      "image": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "GetImageSize",
+    "_meta": {
+      "title": "获取图像尺寸"
+    }
+  },
+  "115": {
+    "inputs": {
+      "mask": [
+        "11",
+        1
+      ]
+    },
+    "class_type": "InvertMask",
+    "_meta": {
+      "title": "反转遮罩"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+# Python environments and caches
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Local settings, credentials and logs
+.env
+.env.*
+!.env.example
+*.local.json
+*.log
+*.pem
+*.key
+
+# Generated jobs and local experiments
+runs/
+/testfiles/去光测试/
+/testfiles/对比/
+/testfiles/*_movmask.png
+/testfiles/*_refmask.png
+
+# AI weights (keep GLB/OBJ and glTF .bin assets trackable)
+/模型/
+*.safetensors
+*.ckpt
+*.pth
+*.pt
+*.onnx
+*.gguf
+/Marigold去光工具/output/
+/Marigold去光工具/outputs/
+
+# Unrelated large local projects and archives
+/Paint3D_DeLight_Test/
+/角色工厂/
+/笔试交付/
+*.pur
+*.zip
+*.7z
+*.mp4
+*.mkv
+*.avi
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
